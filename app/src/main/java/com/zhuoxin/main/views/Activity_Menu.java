@@ -79,6 +79,7 @@ public class Activity_Menu extends Activity implements OnResourceListener, Adapt
         list = source;
         initAdapter();
         Log.e("===", "list1===" + list.size());
+        Log.e("===","jhjdh"+source);
 
     }
 
