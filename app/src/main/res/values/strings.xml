@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">views</string>
+    <string name="path"><![CDATA[http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20]]></string>
+    <string name="hh"><![CDATA[http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20]]></string>
+</resources>
