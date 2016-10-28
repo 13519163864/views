@@ -24,10 +24,11 @@ public class Adapter_Menu extends BaseAdapter {
     Context mContext;
 
     public Adapter_Menu(ArrayList<Source> list, Context mContext) {
-        this.mList=list;
-        this.mContext=mContext;
+        this.mList = list;
+        this.mContext = mContext;
 
     }
+
 
     @Override
     public int getCount() {
@@ -36,7 +37,7 @@ public class Adapter_Menu extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return mList.get(i);
+        return mList.get( i );
     }
 
     @Override
@@ -49,20 +50,20 @@ public class Adapter_Menu extends BaseAdapter {
         Holdel holdel = null;
         if (null == view) {
             holdel = new Holdel();
-            view = LayoutInflater.from(mContext).inflate(R.layout.menu_adapter_layout, viewGroup, false);
-            holdel.mIcon = (ImageView) view.findViewById(R.id.img_menu_adapter_icon);
-            holdel.mTitle = (TextView) view.findViewById(R.id.txt_menu_adapter_title);
-            holdel.mStamp = (TextView) view.findViewById(R.id.txt_menu_adapter_stamp);
-            holdel.mSummary = (TextView) view.findViewById(R.id.txt_menu_adapter_summary);
-            view.setTag(holdel);
+            view = LayoutInflater.from( mContext ).inflate( R.layout.menu_adapter_layout, viewGroup, false );
+            holdel.mIcon = (ImageView) view.findViewById( R.id.img_menu_adapter_icon );
+            holdel.mTitle = (TextView) view.findViewById( R.id.txt_menu_adapter_title );
+            holdel.mStamp = (TextView) view.findViewById( R.id.txt_menu_adapter_stamp );
+            holdel.mSummary = (TextView) view.findViewById( R.id.txt_menu_adapter_summary );
+            view.setTag( holdel );
         } else {
             holdel = (Holdel) view.getTag();
         }
 
-        Glide.with(mContext).load(mList.get(i).getIcon()).into(holdel.mIcon);
-        holdel.mTitle.setText(mList.get(i).getTitle());
-        holdel.mSummary.setText(mList.get(i).getSummary() + "...");
-        holdel.mStamp.setText(mList.get(i).getStamp() + " ");
+        Glide.with( mContext ).load( mList.get( i ).getIcon() ).into( holdel.mIcon );
+        holdel.mTitle.setText( mList.get( i ).getTitle() );
+        holdel.mSummary.setText( mList.get( i ).getSummary() + "..." );
+        holdel.mStamp.setText( mList.get( i ).getStamp() + " " );
         return view;
     }
 
