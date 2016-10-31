@@ -3,6 +3,7 @@ package com.zhuoxin.main.views;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+//import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 /**
  * Created by Administrator on 2016/10/18.
