@@ -32,7 +32,7 @@ public class Activity_Lead extends AppCompatActivity {
         mImg[1] = (ImageView) findViewById( R.id.img_lead2 );
         mImg[2] = (ImageView) findViewById( R.id.img_lead3 );
         mImg[3] = (ImageView) findViewById( R.id.img_lead4 );
-        mImg[0].setImageResource( R.mipmap.lead_default );
+        mImg[0].setImageResource( R.mipmap.lead_selected );
         for (int i = 0; i < 4; i++) {
             mRes[i] = new ImageView( this );
             mRes[i].setImageResource( mImgId[i] );

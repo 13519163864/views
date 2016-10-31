@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +39,7 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
     public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
     XListView mLst;
     ArrayList<Source> list = new ArrayList<>();
+    ArrayList<Source> list1 = new ArrayList<>();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
         //设置监听
         mLst.setXListViewListener( this );
 
+
     }
 
     private void initData() {
@@ -64,14 +65,14 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
         task.execute( PATH );
     }
 
-    @Override
-    public void getResource(ArrayList<Source> source) {
-        list = source;
-        Log.e( "===", "list" + list.size() );
-        Adapter_Menu adapter = new Adapter_Menu( list, getContext() );
-        mLst.setAdapter( adapter );
-
-    }
+//    @Override
+//    public void getResource(ArrayList<Source> source) {
+//        list = source;
+//        Log.e( "===", "list" + list.size() );
+//        Adapter_Menu adapter = new Adapter_Menu( list, getContext() );
+//        mLst.setAdapter( adapter );
+//
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -92,6 +93,9 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     @Override
     public void onLoadMore() {
+        Adapter_Menu adapter = new Adapter_Menu( list1, getContext() );
+        mLst.setAdapter( adapter );
+        adapter.notifyDataSetChanged();
         handler.postDelayed( new Runnable() {
             @Override
             public void run() {
@@ -109,4 +113,18 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
     }
 
     Handler handler;
+
+
+    @Override
+    public void getAllData(Source source) {
+        list1.add( source );
+    }
+
+    @Override
+    public void getResource(Source source) {
+        list.add( source );
+        Adapter_Menu adapter = new Adapter_Menu( list, getContext() );
+        mLst.setAdapter( adapter );
+
+    }
 }

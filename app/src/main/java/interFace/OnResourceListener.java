@@ -1,7 +1,5 @@
 package interFace;
 
-import java.util.ArrayList;
-
 import entry.Source;
 
 /**
@@ -9,5 +7,7 @@ import entry.Source;
  */
 
 public interface OnResourceListener {
-    void getResource(ArrayList<Source> source);
+    void getResource(Source source);
+
+    void getAllData(Source source);
 }

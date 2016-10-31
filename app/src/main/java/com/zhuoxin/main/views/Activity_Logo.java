@@ -21,7 +21,7 @@ public class Activity_Logo extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mImg = (ImageView) findViewById(R.id.img_main);
         Animation loadAnimation = AnimationUtils.loadAnimation(this,
-                R.anim.lode);
+                R.anim.alpha);
         mImg.startAnimation(loadAnimation);
         loadAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override

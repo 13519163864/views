@@ -19,39 +19,47 @@ import utils.Task;
 
 public class Activity_ViewsShow extends Activity implements OnResourceListener {
     WebView mWeb;
+    ArrayList<Source> list = new ArrayList<>();
     int i;
     public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.views_show_layout);
-        mWeb = (WebView) findViewById(R.id.webView);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.views_show_layout );
+        mWeb = (WebView) findViewById( R.id.webView );
         Task task = new Task();
-        task.setListener(this);
+        task.setListener( this );
 
-        task.execute(PATH);
+        task.execute( PATH );
 
     }
 
+
     @Override
-    public void getResource(ArrayList<Source> source) {
-
+    public void getAllData(Source source) {
+        list.add( source );
         Intent intent = this.getIntent();
-        mWeb.getSettings().setJavaScriptEnabled(true);
+        mWeb.getSettings().setJavaScriptEnabled( true );
 
-        i = intent.getIntExtra("i", -1);
+        i = intent.getIntExtra( "i", -1 );
 
-        mWeb.loadUrl(source.get(i).getLink());
-        Log.e("===", "-------------" + source.get(i).getLink());
-        mWeb.setWebViewClient(new WebViewClient() {
+        mWeb.loadUrl( list.get( i ).getLink() );
+        Log.e( "===", "-------------" + list.get( i ).getLink() );
+        mWeb.setWebViewClient( new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                view.loadUrl( url );
                 return true;
                 //true用webview打开,否则由第三方浏览器打开
 
             }
-        });
+        } );
     }
+
+    @Override
+    public void getResource(Source source) {
+
+    }
+
 }
