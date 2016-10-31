@@ -1,39 +1,31 @@
 package fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.zhuoxin.main.views.Activity_ViewsShow;
 import com.zhuoxin.main.views.R;
 
 import java.util.ArrayList;
 
+import adapter.Adapter_Menu;
 import entry.Source;
 import interFace.OnResourceListener;
 import utils.Task;
-import views.Adapter_Menu;
 
 /**
  * Created by Administrator on 2016/10/28.
  */
 
-public class CenterFragment extends ListFragment implements OnResourceListener
-
-{
-
-
-    Adapter_Menu adapter = null;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        initData();
-
-    }
+public class CenterFragment extends Fragment implements OnResourceListener, AdapterView.OnItemClickListener {
 
     @Nullable
     @Override
@@ -47,31 +39,14 @@ public class CenterFragment extends ListFragment implements OnResourceListener
     ArrayList<Source> list = new ArrayList<>();
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick( l, v, position, id );
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        super.onViewCreated( view, savedInstanceState );
+        mLst = (ListView) view.findViewById( R.id.lst_menu );
+        initData();
+        mLst.setOnItemClickListener( this );
 
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-    }
-
-
-    @Override
-    public void getResource(ArrayList<Source> source) {
-
-        list = source;
-
-        Log.e( "===", "list1===" + list.size() );
-        Log.e( "===", "jhjdh" + source );
-    }
-
 
     private void initData() {
         Task task = new Task();
@@ -79,5 +54,18 @@ public class CenterFragment extends ListFragment implements OnResourceListener
         task.execute( PATH );
     }
 
+    @Override
+    public void getResource(ArrayList<Source> source) {
+        list = source;
+        Log.e( "===", "list" + list.size() );
+        Adapter_Menu adapter = new Adapter_Menu( list, getContext() );
+        mLst.setAdapter( adapter );
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Intent intent = new Intent( getActivity(), Activity_ViewsShow.class );
+        intent.putExtra( "i", i );
+        startActivity( intent );
+    }
 }

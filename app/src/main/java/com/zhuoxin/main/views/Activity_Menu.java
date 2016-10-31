@@ -1,14 +1,14 @@
 package com.zhuoxin.main.views;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by Administrator on 2016/10/18.
  */
 
-public class Activity_Menu extends Activity {
+public class Activity_Menu extends AppCompatActivity {
 //    public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
 //    ListView mLst;
 //    ArrayList<Source> list = new ArrayList<>();

@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import views.Adapter_Lead;
+import adapter.Adapter_Lead;
 
 /**
  * Created by Administrator on 2016/10/18.
