@@ -36,10 +36,12 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
         return view;
     }
 
+    Adapter_Menu adapter;
     public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
     XListView mLst;
-    ArrayList<Source> list = new ArrayList<>();
-    ArrayList<Source> list1 = new ArrayList<>();
+    static ArrayList<Source> list = new ArrayList<>();
+    ArrayList<Source> listBeg = new ArrayList<>();
+    ArrayList<Source> listEnd = new ArrayList<>();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -48,14 +50,16 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
         handler = new Handler();
         mLst = (XListView) view.findViewById( R.id.lst_menu );
         initData();
-        mLst.setOnItemClickListener( this );
+
         //上拉加载
         mLst.setPullLoadEnable( true );
         //下拉刷新
         mLst.setPullRefreshEnable( true );
         //设置监听
+
         mLst.setXListViewListener( this );
 
+        mLst.setOnItemClickListener( this );
 
     }
 
@@ -93,7 +97,9 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     @Override
     public void onLoadMore() {
-        Adapter_Menu adapter = new Adapter_Menu( list1, getContext() );
+//        list.clear();
+        list = listEnd;
+        adapter = new Adapter_Menu( list, getContext() );
         mLst.setAdapter( adapter );
         adapter.notifyDataSetChanged();
         handler.postDelayed( new Runnable() {
@@ -117,14 +123,21 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     @Override
     public void getAllData(Source source) {
-        list1.add( source );
+        listEnd.add( source );
     }
 
     @Override
     public void getResource(Source source) {
-        list.add( source );
-        Adapter_Menu adapter = new Adapter_Menu( list, getContext() );
-        mLst.setAdapter( adapter );
 
+        listBeg.add( source );
+        list = listBeg;
+        adapter = new Adapter_Menu( list, getContext() );
+        mLst.setAdapter( adapter );
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public ArrayList<Source> getList() {
+        return list;
     }
 }

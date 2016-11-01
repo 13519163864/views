@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhuoxin.main.views">
+          package="com.zhuoxin.main.views">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
@@ -12,15 +12,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Lead"></activity>
         <activity android:name=".Activity_Logo"></activity>
         <activity android:name=".Activity_Menu"></activity>
-        <activity android:name=".Activity_ViewsShow"></activity>
+        <activity
+            android:name=".Activity_ViewsShow"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

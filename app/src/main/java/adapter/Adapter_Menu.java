@@ -20,10 +20,11 @@ import entry.Source;
  */
 
 public class Adapter_Menu extends BaseAdapter {
-    ArrayList<Source> mList;
+    ArrayList<Source> mList = new ArrayList<>();
     Context mContext;
 
     public Adapter_Menu(ArrayList<Source> list, Context mContext) {
+        mList.clear();
         this.mList = list;
         this.mContext = mContext;
 
