@@ -3,7 +3,6 @@ package fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,7 @@ import entry.LeftFragmentInfo;
  * Created by Administrator on 2016/10/28.
  */
 
-public class LeftFragment extends Fragment{
-    DrawerLayout drawerLayout;
+public class LeftFragment extends Fragment {
 
     @Nullable
     @Override
@@ -36,7 +34,6 @@ public class LeftFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
         mLst = (ListView) view.findViewById( R.id.lst_left_menu );
-        drawerLayout = (DrawerLayout) view.findViewById( R.id.draw_layout );
         initData();
         Adapter_LeftFragment adapter = new Adapter_LeftFragment( mList, getContext() );
         mLst.setAdapter( adapter );
