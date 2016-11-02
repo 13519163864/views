@@ -1,2 +1,3 @@
 include ':app'
 include ':xListView'
+include ':Library/SlidingMenu/library'

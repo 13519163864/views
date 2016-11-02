@@ -30,4 +30,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.code.gson:gson:2.2.4'
     compile project(':xListView')
+    compile 'com.github.erd:android-volley:1.0.0'
 }

@@ -10,16 +10,13 @@ import android.view.ViewGroup;
 import com.zhuoxin.main.views.R;
 
 /**
- * Created by Administrator on 2016/10/28.
+ * Created by Administrator on 2016/11/2.
  */
 
-public class RightFragment extends Fragment {
-
+public class ForgetPassword extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate( R.layout.right_fragment, container, false );
+        return inflater.inflate( R.layout.forget_password, container, false );
     }
-
-
 }

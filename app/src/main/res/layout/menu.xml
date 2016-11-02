@@ -4,6 +4,8 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+
+
     <me.maxwin.view.XListView
         android:id="@+id/lst_menu"
         android:layout_width="match_parent"

@@ -47,6 +47,7 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated( view, savedInstanceState );
+
         handler = new Handler();
         mLst = (XListView) view.findViewById( R.id.lst_menu );
         initData();
