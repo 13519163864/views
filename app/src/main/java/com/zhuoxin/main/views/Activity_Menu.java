@@ -27,8 +27,8 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
     ImageView mHome;
     ImageView mShare;
 
-//    ListView mLst;
-    SlidingMenu slidingMenu;
+    //    ListView mLst;
+   public static SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +55,8 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
         slidingMenu.setShadowDrawable( R.color.colorPrimary );
         slidingMenu.setShadowWidth( 10 );
         slidingMenu.attachToActivity( this, SlidingMenu.SLIDING_CONTENT );
+
+//        slidingMenu.showContent();
 //        slidingMenu.toggle();
 
 //        drawerLayout = (DrawerLayout) findViewById( R.id.draw_layout );
@@ -164,7 +166,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 //        Log.e("========","view======"+list);
 //    }
 
-//    @Override
+    //    @Override
 //    public void getResource(ArrayList<Source> source) {
 //        list = source;
 //        initAdapter();
@@ -177,4 +179,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 //        Adapter_Menu adapter = new Adapter_Menu(list, this);
 //        mLst.setAdapter(adapter);
 //    }
+    public void showConten() {
+        slidingMenu.showContent();
+    }
 }

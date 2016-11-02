@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.zhuoxin.main.views.Activity_Menu;
 import com.zhuoxin.main.views.R;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class LeftFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
             case 0:
+                new Activity_Menu().showConten();
                 Toast.makeText( getActivity(), "新闻", Toast.LENGTH_SHORT ).show();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace( R.id.framlayout_main, new CenterFragment() );
