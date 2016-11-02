@@ -1,5 +1,7 @@
 package fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.zhuoxin.main.views.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import entry.UriInfo;
 import interFace.OnLoadResponseListener;
@@ -30,6 +35,7 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
     String Emil;
     String Name;
     String Password;
+    public static final String REGISTER_INFO = "registerInfo";
 
     @Nullable
     @Override
@@ -55,6 +61,31 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
     @Override
     public void getResponse(String message) {
         Log.e( "===", "-------" + message );
+        try {
+            JSONObject jsonObject = new JSONObject( message );
+            String mesage = jsonObject.getString( "message" );
+            int status = jsonObject.getInt( "status" );
+            Log.e( "===", "message" + mesage + "status" + status );
+            JSONObject data = jsonObject.getJSONObject( "data" );
+            Log.e( "====", "data===" + android.R.attr.data );
+//            JSONObject object = android.R.attr.data.getJSONObject( 1 );
+            int result = data.getInt( "result" );
+            String token = data.getString( "token" );
+            String explain = data.getString( "explain" );
+            Log.e( "====", "result==" + result + "token==" + token + "explain==" + explain );
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "register", Context.MODE_PRIVATE );
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putInt( "result", result );
+            edit.putString( "token", token );
+            edit.putString( "explain", explain );
+            Log.e( "===", "tianjial" );
+            edit.commit();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override

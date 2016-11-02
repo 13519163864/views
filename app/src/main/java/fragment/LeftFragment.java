@@ -3,10 +3,13 @@ package fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.zhuoxin.main.views.R;
 
@@ -19,7 +22,7 @@ import entry.LeftFragmentInfo;
  * Created by Administrator on 2016/10/28.
  */
 
-public class LeftFragment extends Fragment {
+public class LeftFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     @Nullable
     @Override
@@ -37,6 +40,8 @@ public class LeftFragment extends Fragment {
         initData();
         Adapter_LeftFragment adapter = new Adapter_LeftFragment( mList, getContext() );
         mLst.setAdapter( adapter );
+        mLst.setOnItemClickListener( this );
+
 
     }
 
@@ -49,4 +54,16 @@ public class LeftFragment extends Fragment {
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i) {
+            case 0:
+                Toast.makeText( getActivity(), "新闻", Toast.LENGTH_SHORT ).show();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace( R.id.framlayout_main, new CenterFragment() );
+                transaction.commit();
+//                startActivity( new Intent( getActivity(), Activity_Menu.class ) );
+                break;
+        }
+    }
 }
