@@ -9,8 +9,13 @@
 
     <ImageView
         android:id="@+id/img_main"
-        android:layout_margin="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="60dp"
         android:src="@mipmap/logo"/>
+
+    <TextView
+        android:id="@+id/txt_lead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

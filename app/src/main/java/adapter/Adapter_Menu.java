@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -13,6 +13,7 @@ import com.zhuoxin.main.views.R;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import entry.Source;
 
 /**
@@ -22,6 +23,9 @@ import entry.Source;
 public class Adapter_Menu extends BaseAdapter {
     ArrayList<Source> mList = new ArrayList<>();
     Context mContext;
+    int mBack[] = {R.mipmap.backa, R.mipmap.backb, R.mipmap.backc, R.mipmap.backd, R.mipmap.backe, R.mipmap.backf, R.mipmap.backg, R.mipmap.backh, R.mipmap.backi, R.mipmap.backj, R.mipmap.backl, R.mipmap.backm, R.mipmap.backn, R.mipmap.backo, R.mipmap.backp, R.mipmap.backq, R.mipmap.backr, R.mipmap.backs, R.mipmap.backt, R.mipmap.backu};
+    int mResId[] = {R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e};
+    int mBlack[] = {R.mipmap.blacka, R.mipmap.blackd, R.mipmap.blacke, R.mipmap.blackf, R.mipmap.blackh, R.mipmap.blackg, R.mipmap.blacki, R.mipmap.blackj};
 
     public Adapter_Menu(ArrayList<Source> list, Context mContext) {
         mList.clear();
@@ -52,10 +56,11 @@ public class Adapter_Menu extends BaseAdapter {
         if (null == view) {
             holdel = new Holdel();
             view = LayoutInflater.from( mContext ).inflate( R.layout.menu_adapter_layout, viewGroup, false );
-            holdel.mIcon = (ImageView) view.findViewById( R.id.img_menu_adapter_icon );
+            holdel.mIcon = (CircleImageView) view.findViewById( R.id.img_menu_adapter_icon );
             holdel.mTitle = (TextView) view.findViewById( R.id.txt_menu_adapter_title );
             holdel.mStamp = (TextView) view.findViewById( R.id.txt_menu_adapter_stamp );
             holdel.mSummary = (TextView) view.findViewById( R.id.txt_menu_adapter_summary );
+            holdel.mLinear = (LinearLayout) view.findViewById( R.id.liner );
             view.setTag( holdel );
         } else {
             holdel = (Holdel) view.getTag();
@@ -65,14 +70,17 @@ public class Adapter_Menu extends BaseAdapter {
         holdel.mTitle.setText( mList.get( i ).getTitle() );
         holdel.mSummary.setText( mList.get( i ).getSummary() + "..." );
         holdel.mStamp.setText( mList.get( i ).getStamp() + " " );
+        holdel.mLinear.setBackgroundResource( mResId[i % mResId.length] );
+//        holdel.mLinear.setBackgroundDrawable( R.mipmap.ki );
         return view;
     }
 
     static class Holdel {
-        ImageView mIcon;
+        CircleImageView mIcon;
         TextView mTitle;
         TextView mStamp;
         TextView mSummary;
+        LinearLayout mLinear;
     }
 
 }

@@ -28,7 +28,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
     ImageView mShare;
 
     //    ListView mLst;
-   public static SlidingMenu slidingMenu;
+    public static SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,9 +50,10 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
         transaction2.replace( R.id.framlayout_right, new RightFragment() );
         transaction2.commit();
         slidingMenu.setTouchModeAbove( SlidingMenu.TOUCHMODE_FULLSCREEN );
-        slidingMenu.setFadeDegree( 0.35f );
-        slidingMenu.setBehindOffset( 200 );
-        slidingMenu.setShadowDrawable( R.color.colorPrimary );
+        slidingMenu.setFadeDegree( 0.8f );
+        slidingMenu.setBehindOffset( 100 );
+        slidingMenu.setShadowDrawable( R.drawable.a );
+        slidingMenu.setSecondaryShadowDrawable( R.drawable.a );
         slidingMenu.setShadowWidth( 10 );
         slidingMenu.attachToActivity( this, SlidingMenu.SLIDING_CONTENT );
 

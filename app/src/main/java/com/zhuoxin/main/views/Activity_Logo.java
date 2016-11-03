@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by Administrator on 2016/10/18.
@@ -14,16 +15,18 @@ import android.widget.ImageView;
 
 public class Activity_Logo extends AppCompatActivity {
     ImageView mImg;
+    TextView mTxt;
+    String str[] = {"新", "闻", "列", "表"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mImg = (ImageView) findViewById(R.id.img_main);
-        Animation loadAnimation = AnimationUtils.loadAnimation(this,
-                R.anim.alpha);
-        mImg.startAnimation(loadAnimation);
-        loadAnimation.setAnimationListener(new Animation.AnimationListener() {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_main );
+        mImg = (ImageView) findViewById( R.id.img_main );
+        Animation loadAnimation = AnimationUtils.loadAnimation( this,
+                R.anim.alpha );
+        mImg.startAnimation( loadAnimation );
+        loadAnimation.setAnimationListener( new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
@@ -31,8 +34,8 @@ public class Activity_Logo extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(Activity_Logo.this, Activity_Menu.class));
-                overridePendingTransition(R.anim.set, R.anim.exit);
+                startActivity( new Intent( Activity_Logo.this, Activity_Menu.class ) );
+                overridePendingTransition( R.anim.set, R.anim.exit );
                 finish();
             }
 
@@ -40,7 +43,8 @@ public class Activity_Logo extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
 
             }
-        });
+        } );
+
 
 //
 //        new Thread(new Runnable() {
