@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/activity_main"
+             android:background="@drawable/a"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#f00"
                 tools:context="com.zhuoxin.main.views.MainActivity">
 
-    <ImageView
-        android:id="@+id/img_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="60dp"
-        android:src="@mipmap/logo"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/img_main"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_margin="60dp"-->
+        <!--android:src="@mipmap/logo"/>-->
 
-    <TextView
-        android:id="@+id/txt_lead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</RelativeLayout>
+    <!--<TextView-->
+        <!--android:id="@+id/txt_lead"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"/>-->
+</FrameLayout>
