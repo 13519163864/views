@@ -5,12 +5,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -75,11 +77,34 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
             Log.e( "====", "result==" + result + "token==" + token + "explain==" + explain );
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "register", Context.MODE_PRIVATE );
             SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString( "message", mesage );
+            edit.putInt( "status", status );
             edit.putInt( "result", result );
             edit.putString( "token", token );
             edit.putString( "explain", explain );
             Log.e( "===", "tianjial" );
             edit.commit();
+            int result1 = sharedPreferences.getInt( "result", 0 );
+            String explain1 = sharedPreferences.getString( "explain", null );
+            if (result1 == 0) {
+                Toast.makeText( getActivity(), explain1 + "请登录", Toast.LENGTH_SHORT ).show();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace( R.id.framlayout_main, new SignIn() );
+                transaction.commit();
+            } else if (result1 == -1) {
+                Toast.makeText( getActivity(), explain1, Toast.LENGTH_SHORT ).show();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace( R.id.framlayout_main, new CenterFragment() );
+                transaction.commit();
+            } else if (result1 == -2) {
+                Toast.makeText( getActivity(), explain1 + "请重新输入", Toast.LENGTH_SHORT ).show();
+                name.setText( "" );
+            } else if (result1 == -3) {
+                Toast.makeText( getActivity(), explain1 + "请重新输入", Toast.LENGTH_SHORT ).show();
+                emil.setText( "" );
+
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,7 +112,6 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
 
 
     }
-
 
 
     @Override
