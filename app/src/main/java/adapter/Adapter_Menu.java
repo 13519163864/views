@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,6 +73,18 @@ public class Adapter_Menu extends BaseAdapter {
         holdel.mSummary.setText( mList.get( i ).getSummary() + "..." );
         holdel.mStamp.setText( mList.get( i ).getStamp() + " " );
         holdel.mLinear.setBackgroundResource( mResId[i % mResId.length] );
+
+
+        //给inageview添加渐变动画
+        Animation loadAnimation = AnimationUtils.loadAnimation( mContext, R.anim.alpha );
+        //设置动画时间
+        loadAnimation.setDuration( 1000 );
+        //设置动画播放次数
+        loadAnimation.setRepeatCount( 2);
+        //开启动画
+        holdel.mIcon.startAnimation( loadAnimation );
+
+
 //        holdel.mLinear.setBackgroundDrawable( R.mipmap.ki );
         return view;
     }

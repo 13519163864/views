@@ -1,6 +1,7 @@
 package fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.zhuoxin.main.views.Activity_UserCenter;
 import com.zhuoxin.main.views.R;
 
 import org.json.JSONException;
@@ -59,6 +62,7 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
         requestQueue = Volley.newRequestQueue( getActivity() );
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -66,6 +70,7 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
                 FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction2.replace( R.id.framlayout_main, new Register() );
                 transaction2.commit();
+
                 break;
             case R.id.forget_password:
                 FragmentTransaction transaction3 = getActivity().getSupportFragmentManager().beginTransaction();
@@ -82,12 +87,33 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
         }
     }
 
+    static SharedPreferences sharedPreferences;
+
     @Override
     public void getResponse(String message) {
         try {
+            sharedPreferences = getActivity().getSharedPreferences( "signIn", Context.MODE_PRIVATE );
+            SharedPreferences.Editor edit = sharedPreferences.edit();
             JSONObject jsonObject = new JSONObject( message );
             String mesage = jsonObject.getString( "message" );
+            edit.putString( "message", mesage );
             int status = jsonObject.getInt( "status" );
+            edit.putInt( "status", status );
+            edit.commit();
+            String message1 = sharedPreferences.getString( "message", null );
+            Log.e( "---", "message1=====" + mesage );
+//            if ("登录成功".equals( expl )) {
+            if ("OK".equals( mesage )) {
+                startActivity( new Intent( getActivity(), Activity_UserCenter.class ) );
+                getActivity().overridePendingTransition( R.anim.set, R.anim.exit );
+                getActivity().finish();
+            } else {
+
+                Log.e( "====", "登录失败" );
+                Toast.makeText( getActivity(), message1, Toast.LENGTH_SHORT ).show();
+//                name.setText( "" );
+                password.setText( "" );
+            }
             Log.e( "===", "message" + mesage + "status" + status );
             JSONObject data = jsonObject.getJSONObject( "data" );
             Log.e( "====", "data===" + android.R.attr.data );
@@ -96,13 +122,15 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
             String token = data.getString( "token" );
             String explain = data.getString( "explain" );
             Log.e( "====", "result==" + result + "token==" + token + "explain==" + explain );
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "signIn", Context.MODE_PRIVATE );
-            SharedPreferences.Editor edit = sharedPreferences.edit();
+
+
             edit.putInt( "result", result );
             edit.putString( "token", token );
             edit.putString( "explain", explain );
+
             Log.e( "===", "tianjial" );
             edit.commit();
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -110,4 +138,5 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
 
         Log.e( "===", "message" + message );
     }
+
 }

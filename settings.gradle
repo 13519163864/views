@@ -1,3 +1,4 @@
 include ':app', ':sliding_menu'
 include ':xListView'
 include ':Library/SlidingMenu/library'
+include ':animatedRandomLayout'

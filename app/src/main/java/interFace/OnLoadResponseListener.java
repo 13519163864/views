@@ -5,5 +5,7 @@ package interFace;
  */
 
 public interface OnLoadResponseListener {
-    void getResponse(String message);
+    void getResponse(String succuful);
+
+
 }

@@ -39,6 +39,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace( R.id.framlayout_main, new CenterFragment() );
         transaction.commit();
+
         slidingMenu.setMode( SlidingMenu.LEFT_RIGHT );
         slidingMenu.setMenu( R.layout.left );
 

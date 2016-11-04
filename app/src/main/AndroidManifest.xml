@@ -23,6 +23,7 @@
         <activity
             android:name=".Activity_ViewsShow"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".Activity_UserCenter"></activity>
     </application>
 
 </manifest>

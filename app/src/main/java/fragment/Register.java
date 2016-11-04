@@ -88,6 +88,8 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
 
     }
 
+
+
     @Override
     public void onClick(View view) {
         Emil = emil.getText().toString();
