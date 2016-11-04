@@ -104,6 +104,7 @@ public class HttpUtils {
             public void onResponse(String response) {
 
                 onLoadResponseListener.getResponse( response );
+                Log.e( "========", "解析前" + response );
             }
         }, new Response.ErrorListener() {
             @Override
@@ -124,5 +125,30 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
+    public void UserCenter(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String token) {
+        StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                onLoadResponseListener.getResponse( response );
+                Log.e( "========", "解析前" + response );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e( "===", "error=======" + error.getMessage() );
+            }
+        } ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put( "ver", "1" );
+                map.put( "imei", "1" );
+                map.put( "token", token );
+                return map;
+            }
+        };
+        requestQueue.add( request );
+    }
 
 }
