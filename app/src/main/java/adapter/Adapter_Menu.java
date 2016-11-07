@@ -25,7 +25,7 @@ import entry.Source;
 public class Adapter_Menu extends BaseAdapter {
     ArrayList<Source> mList = new ArrayList<>();
     Context mContext;
-    int mBack[] = {R.mipmap.backa, R.mipmap.backb, R.mipmap.backc, R.mipmap.backd, R.mipmap.backe, R.mipmap.backf, R.mipmap.backg, R.mipmap.backh, R.mipmap.backi, R.mipmap.backj, R.mipmap.backl, R.mipmap.backm, R.mipmap.backn, R.mipmap.backo, R.mipmap.backp, R.mipmap.backq, R.mipmap.backr, R.mipmap.backs, R.mipmap.backt, R.mipmap.backu};
+    int mBack[] = {R.mipmap.ta, R.mipmap.tb, R.mipmap.tc, R.mipmap.td, R.mipmap.te, R.mipmap.tf, R.mipmap.tg, R.mipmap.th, R.mipmap.ti, R.mipmap.tj, R.mipmap.tk, R.mipmap.tl, R.mipmap.tm, R.mipmap.tn, R.mipmap.to, R.mipmap.tp, R.mipmap.tw, R.mipmap.tr, R.mipmap.tu, R.mipmap.tv};
     int mResId[] = {R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e};
     int mBlack[] = {R.mipmap.blacka, R.mipmap.blackd, R.mipmap.blacke, R.mipmap.blackf, R.mipmap.blackh, R.mipmap.blackg, R.mipmap.blacki, R.mipmap.blackj};
 
@@ -72,7 +72,7 @@ public class Adapter_Menu extends BaseAdapter {
         holdel.mTitle.setText( mList.get( i ).getTitle() );
         holdel.mSummary.setText( mList.get( i ).getSummary() + "..." );
         holdel.mStamp.setText( mList.get( i ).getStamp() + " " );
-        holdel.mLinear.setBackgroundResource( mResId[i % mResId.length] );
+        holdel.mLinear.setBackgroundResource( mBack[i % mBack.length] );
 
 
         //给inageview添加渐变动画
@@ -80,7 +80,7 @@ public class Adapter_Menu extends BaseAdapter {
         //设置动画时间
         loadAnimation.setDuration( 1000 );
         //设置动画播放次数
-        loadAnimation.setRepeatCount( 2);
+        loadAnimation.setRepeatCount( 2 );
         //开启动画
         holdel.mIcon.startAnimation( loadAnimation );
 

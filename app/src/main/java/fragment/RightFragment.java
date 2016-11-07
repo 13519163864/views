@@ -19,6 +19,9 @@ import com.zhuoxin.main.views.Activity_Menu;
 import com.zhuoxin.main.views.Activity_UserCenter;
 import com.zhuoxin.main.views.R;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
  * Created by Administrator on 2016/10/28.
  */
@@ -27,6 +30,8 @@ public class RightFragment extends Fragment implements View.OnClickListener {
     ImageView mSignIn;
     TextView mTxtSign;
     int result;
+    int status;
+    TextView mShare;
 
     @Nullable
     @Override
@@ -39,21 +44,29 @@ public class RightFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated( view, savedInstanceState );
         mSignIn = (ImageView) view.findViewById( R.id.img_sign );
         mTxtSign = (TextView) view.findViewById( R.id.txt_sign );
+        mShare = (TextView) view.findViewById( R.id.txt_right_fragment_share );
+        mShare.setOnClickListener( this );
         mTxtSign.setOnClickListener( this );
         mSignIn.setOnClickListener( this );
         SharedPreferences signIn = getActivity().getSharedPreferences( "signIn", Context.MODE_PRIVATE );
         SharedPreferences userInfo = getActivity().getSharedPreferences( "UserInfo", Context.MODE_PRIVATE );
         result = signIn.getInt( "result", 0 );
         Log.e( "===", "result+++" + result );
+        status = userInfo.getInt( "status", 0 );
+        Log.e( "===", "status+++" + status );
+
         String portrait = userInfo.getString( "portrait", null );
         Log.e( "===", "portrait+++" + portrait );
 
         String uid = userInfo.getString( "uid", null );
         Log.e( "===", "uid+++" + uid );
 
-        if (result == 0) {
+        if (result == 0 && status == 0) {
             Glide.with( getActivity() ).load( portrait ).into( mSignIn );
             mTxtSign.setText( uid );
+        } else {
+            mSignIn.setImageResource( R.mipmap.biz_pc_main_info_profile_avatar_bg_dark );
+            mTxtSign.setText( "立即登录" );
         }
 
     }
@@ -62,7 +75,7 @@ public class RightFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_sign:
-                if (result == 0) {
+                if (result == 0 && status == 0) {
                     startActivity( new Intent( getActivity(), Activity_UserCenter.class ) );
                 } else {
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -74,16 +87,30 @@ public class RightFragment extends Fragment implements View.OnClickListener {
 //                drawerLayout.closeDrawer( Gravity.RIGHT );
                 break;
             case R.id.txt_sign:
-                if (result == 0) {
+                if (result == 0 && status == 0) {
                     startActivity( new Intent( getActivity(), Activity_UserCenter.class ) );
                 } else {
                     FragmentTransaction transaction1 = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction1.replace( R.id.framlayout_main, new SignIn() );
                     transaction1.commit();
                     new Activity_Menu().showConten();
-
                 }
+
 //                drawerLayout.closeDrawer( Gravity.RIGHT );
+                break;
+            case R.id.txt_right_fragment_share:
+                //初始化SDK
+                ShareSDK.initSDK( getContext() );
+                //实例对象
+                OnekeyShare onekeyShare = new OnekeyShare();
+                //关闭sso授权
+                onekeyShare.disableSSOWhenAuthorize();
+//                onekeyShare.
+                onekeyShare.setText( "新闻列表" );
+                onekeyShare.setTitle( "测试" );
+//                onekeyShare.setInstallUrl(  );
+
+                onekeyShare.show( getContext() );
                 break;
         }
     }

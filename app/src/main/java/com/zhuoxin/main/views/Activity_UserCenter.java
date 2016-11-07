@@ -87,7 +87,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
             int status = jsonObject.getInt( "status" );
             edit.putInt( "status", status );
             Log.e( "===", "status" + status );
-
+            edit.commit();
             JSONObject object = jsonObject.optJSONObject( "data" );
 
             uid = object.getString( "uid" );

@@ -4,7 +4,7 @@
                 android:id="@+id/activity_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/a"
+                android:background="@mipmap/tt"
                 tools:context="com.zhuoxin.main.views.MainActivity">
 
     <com.special.animatedrandomlayout.random_layout.AnimatedRandomLayout

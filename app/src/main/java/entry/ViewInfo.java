@@ -9,7 +9,7 @@ public class ViewInfo {
     String icon;
     String stamp;
     String title;
-    String nid;
+    int nid;
     String link;
     int type;
 
@@ -46,11 +46,11 @@ public class ViewInfo {
         return title;
     }
 
-    public void setNid(String nid) {
+    public void setNid(int nid) {
         this.nid = nid;
     }
 
-    public String getNid() {
+    public int getNid() {
         return nid;
     }
 
@@ -74,7 +74,7 @@ public class ViewInfo {
                     String icon,
                     String stamp,
                     String title,
-                    String nid,
+                    int nid,
                     String link,
                     int type) {
         this.summary = summary;

@@ -35,14 +35,14 @@ public class Activity_Logo extends AppCompatActivity {
             @Override
             public void run() {
          AnimatedRandomLayout layout = (AnimatedRandomLayout) findViewById(R.id.animation);
-        String[] str = {"你是不是感觉自己萌萌哒","你是不是喜欢我啊","明星八卦","古今奇谈","野史怪谈","家长里短","感觉不会再爱了","蓝瘦香菇","喜洋洋爱上了灰太狼","红太狼和村长私奔了","超人大战奥特曼","据说明天会下刀子","你能把我怎样","我就喜欢看你看不惯我又拿我没办法的逼样"};
+        String[] str = {"你是不是感觉自己萌萌哒","你是不是喜欢我啊","明星八卦","古今奇谈","野史怪谈","家长里短","感觉不会再爱了","蓝瘦香菇","喜洋洋爱上了灰太狼","红太狼和村长私奔了","超人大战奥特曼","你能把我怎样","我就喜欢看你看不惯我又拿我没办法的逼样"};
         list = new ArrayList<>();
         list = Arrays.asList(str);
 
 
         layout.setLooperDuration(50);
         layout.setDefaultDruation(5000);
-        layout.setItemShowCount(5);
+        layout.setItemShowCount(2);
 //        layout.setRegularity(15, 15);
 
 

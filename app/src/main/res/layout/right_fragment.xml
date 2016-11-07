@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:orientation="vertical">
@@ -85,5 +85,13 @@
                 android:layout_weight="1"
                 android:src="@mipmap/fun_share_weibo"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_right_fragment_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="一键分享"
+            android:textColor="#f00"
+            android:textSize="30sp"/>
     </LinearLayout>
 </LinearLayout>

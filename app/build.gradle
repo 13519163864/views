@@ -37,4 +37,13 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile files('libs/randomlayout.jar')
     compile project(':animatedRandomLayout')
+    compile files('libs/MobCommons-2016.1102.1128.jar')
+    compile files('libs/MobTools-2016.1102.1128.jar')
+    compile files('libs/ShareSDK-Core-2.7.9.jar')
+    compile files('libs/ShareSDK-QQ-2.7.9.jar')
+    compile files('libs/ShareSDK-QZone-2.7.9.jar')
+    compile files('libs/ShareSDK-SinaWeibo-2.7.9.jar')
+    compile files('libs/ShareSDK-Wechat-2.7.9.jar')
+    compile files('libs/ShareSDK-Wechat-Core-2.7.9.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.7.9.jar')
 }

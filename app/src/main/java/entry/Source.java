@@ -9,11 +9,11 @@ public class Source {
     String icon;
     String stamp;
     String title;
-    String nid;
+    int nid;
     String link;
     int type;
 
-    public Source(String summary, String stamp, String title, String icon, String nid, String link, int type) {
+    public Source(String summary, String stamp, String title, String icon, int nid, String link, int type) {
         this.summary = summary;
         this.stamp = stamp;
         this.title = title;
@@ -43,7 +43,7 @@ public class Source {
         return link;
     }
 
-    public String getNid() {
+    public int getNid() {
         return nid;
     }
 
@@ -67,7 +67,7 @@ public class Source {
         this.title = title;
     }
 
-    public void setNid(String nid) {
+    public void setNid(int nid) {
         this.nid = nid;
     }
 

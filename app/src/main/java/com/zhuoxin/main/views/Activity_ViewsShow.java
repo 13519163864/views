@@ -1,19 +1,27 @@
 package com.zhuoxin.main.views;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import entry.Source;
 import fragment.CenterFragment;
+import utils.SqlUtils;
 
 /**
  * Created by Administrator on 2016/10/19.
@@ -21,11 +29,12 @@ import fragment.CenterFragment;
 
 public class Activity_ViewsShow extends Activity implements View.OnClickListener {
     WebView mWeb;
-    ;
+    Context mContext;
     ArrayList<Source> list = new ArrayList<>();
     //    ArrayList<Source> list1 = new ArrayList<>();
     int i;
     ImageView mBack;
+    ImageView mPopu;
 //    public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
 
     @Override
@@ -36,6 +45,24 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
         mWeb.getSettings().setJavaScriptEnabled( true );
         mBack = (ImageView) findViewById( R.id.img_web_back );
         mBack.setOnClickListener( this );
+        mPopu = (ImageView) findViewById( R.id.img_web_favorite );
+
+        mContext = this;
+//        final PopupWindow popupWindow = new PopupWindow();
+//
+//        //设置view
+//        popupWindow.setContentView( this.getLayoutInflater().inflate( R.layout.popu, null, false ) );
+//        popupWindow.setWidth( 100 );
+//        popupWindow.setHeight( 300 );
+        mPopu.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupWindow( view );
+
+            }
+        } );
+
+
         list = new CenterFragment().getList();
         Log.e( "===", "-------------" + list.size() );
         //设置手机客户端的显示样式
@@ -107,10 +134,40 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 //        return super.onKeyDown( keyCode, event );
 //    }
 
-//    @Override
+    //    @Override
 //    public void getResource(Source source) {
 ////        list.clear();
 //        list.add( source );
 //    }
+    //popupwindow下拉列表
+    public void showPopupWindow(View view) {
+        View contentView = LayoutInflater.from( mContext ).inflate( R.layout.popu, null );
+        TextView textView = (TextView) contentView.findViewById( R.id.txt_popu );
+        textView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String summary = list.get( i ).getSummary();
+                String icon = list.get( i ).getIcon();
+                String link = list.get( i ).getLink();
+                int nid = list.get( i ).getNid();
+                String stamp = list.get( i ).getStamp();
+                String title = list.get( i ).getTitle();
+                int type = list.get( i ).getType();
+                new SqlUtils(mContext).inSert( nid,title,summary,stamp,icon,link,type );
+                Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
 
+            }
+        } );
+        PopupWindow popupWindow = new PopupWindow( contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
+        popupWindow.setTouchable( true );
+        popupWindow.setTouchInterceptor( new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.e( "mengdd", "onTOUCH" );
+                return false;
+            }
+        } );
+        popupWindow.setBackgroundDrawable( getResources().getDrawable( R.mipmap.tt ) );
+        popupWindow.showAsDropDown( view );
+    }
 }

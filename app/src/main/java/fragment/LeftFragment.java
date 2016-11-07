@@ -66,6 +66,13 @@ public class LeftFragment extends Fragment implements AdapterView.OnItemClickLis
                 transaction.commit();
 //                startActivity( new Intent( getActivity(), Activity_Menu.class ) );
                 break;
+            case 1:
+                new Activity_Menu().showConten();
+                Toast.makeText( getActivity(), "收藏", Toast.LENGTH_SHORT ).show();
+                FragmentTransaction transaction1 = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction1.replace( R.id.framlayout_main, new Favorite() );
+                transaction1.commit();
+                break;
         }
     }
 }

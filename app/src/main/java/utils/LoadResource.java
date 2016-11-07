@@ -87,7 +87,7 @@ public class LoadResource extends AsyncTask<String, String, String> {
                 String icon = jsonObject.getString("icon");
                 String stamp = jsonObject.getString("stamp");
                 String title = jsonObject.getString("title");
-                String nid = jsonObject.getString("nid");
+                int nid = jsonObject.getInt("nid");
                 String link = jsonObject.getString("link");
                 int type = jsonObject.getInt("type");
                 if (null != onLoadResource) {
