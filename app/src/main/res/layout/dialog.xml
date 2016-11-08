@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@mipmap/tt"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_gialog_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="拍照选取"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/txt_gialog_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+        android:text="从相册选择"
+        android:textSize="25sp"/>
+
+</LinearLayout>

@@ -1,11 +1,18 @@
 package com.zhuoxin.main.views;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import adapter.Adapter_loginLog;
@@ -50,8 +58,6 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.user_center );
-
-
         initView();
         SharedPreferences signIn = this.getSharedPreferences( "signIn", MODE_PRIVATE );
         String token = signIn.getString( "token", null );
@@ -69,6 +75,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         mComnum = (TextView) findViewById( R.id.txt_user_center_tongji );
         mLst = (ListView) findViewById( R.id.lst_user_center_log );
         mBack = (ImageView) findViewById( R.id.img_user_center_back );
+        mIcon.setOnClickListener( this );
         mBack.setOnClickListener( this );
     }
 
@@ -129,15 +136,135 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         }
     }
 
+    File file;
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.img_user_center_back:
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace( R.id.framlayout_main, new CenterFragment() );
                 transaction.commit();
                 break;
+            case R.id.img_user_icon:
+                AlertDialog.Builder builder = new AlertDialog.Builder( this );
+                builder.setTitle( "请选择操作" );
+                final View inflate = LayoutInflater.from( this ).inflate( R.layout.dialog, null );
+                TextView camera = (TextView) inflate.findViewById( R.id.txt_gialog_camera );
+                TextView pic = (TextView) inflate.findViewById( R.id.txt_gialog_pic );
+                camera.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+//调系统相机拍照
+                        //拍照意图
+                        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+                        //获取保存照片路径
+                        String path = Environment.getExternalStorageDirectory().getPath();
+                        //文件
+                        file = new File( path + File.separator + System.currentTimeMillis() + ".jpg" );
+                        //设置保存路径
+                        intent.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( file ) );
+                        startActivityForResult( intent, 1 );
+                    }
+                } );
+                pic.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent( Intent.ACTION_PICK );
+                        //设置类型
+                        intent.setType( "image/*" );
+                        startActivityForResult( intent, 2 );
+
+                    }
+                } );
+
+                builder.setView( inflate );
+                builder.show();
+                break;
+        }
+    }
+
+    //使用意图剪切照片剪切从图库中获取的照片
+    public void crop(Uri uri) {
+        Intent intent = new Intent();
+        //设置要剪切的资源文件及类型
+        intent.setDataAndType( uri, "image/*" );
+        //设置剪切
+        intent.setAction( "com.android.camera.action.CROP" );
+        //开启剪切
+        intent.putExtra( "crop", "true" );
+        //设置裁剪框比例
+        intent.putExtra( "aspectX", 1 );
+        intent.putExtra( "aspectY", 1 );
+        //设置裁剪后输出的照片大小
+        intent.putExtra( "outputX", 200 );
+        intent.putExtra( "outputY", 200 );
+        //设置剪切圆形图片
+        intent.putExtra( "circleCrop","true" );
+        //设置返回数据
+        intent.putExtra( "return-data", true );
+        startActivityForResult( intent, 3 );
+    }
+
+    public void cropFromCamera(File file) {
+        Intent intent = new Intent();
+        //设置要剪切的资源文件及类型
+        intent.setDataAndType( Uri.fromFile( file ), "image/*" );
+        //设置剪切
+        intent.setAction( "com.android.camera.action.CROP" );
+        //开启剪切
+        intent.putExtra( "crop", "true" );
+        //设置裁剪框比例
+        intent.putExtra( "aspectX", 1 );
+        intent.putExtra( "aspectY", 1 );
+        //设置裁剪后输出的照片大小
+        intent.putExtra( "outputX", 200 );
+        intent.putExtra( "outputY", 200 );
+        //设置剪切圆形图片
+        intent.putExtra( "circleCrop","true" );
+        //设置返回数据
+        intent.putExtra( "return-data", true );
+        startActivityForResult( intent, 3 );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult( requestCode, resultCode, data );
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1:
+                    cropFromCamera( file );
+
+
+                    //接收相机拍照的两种方式
+//                    Bitmap bitmap = BitmapFactory.decodeFile( file.getPath() );
+//                    Bitmap bitmap = data.getParcelableExtra( "data" );
+//                    mIcon.setImageBitmap( bitmap );
+                    break;
+                case 2:
+//                    Bitmap bitmap1 = data.getParcelableExtra( "data" );
+//                    mIcon.setImageBitmap( bitmap1 );
+                    //通过内容提供者获取
+//                    ContentResolver resolver = getContentResolver();
+//                    Uri uri = data.getData();
+//
+//                    String[] array = {MediaStore.Images.Media.DATA};
+//
+//                    Cursor cursor = resolver.query( uri, array, null, null, null );
+//                    cursor.moveToFirst();
+//                    String path = cursor.getString( cursor.getColumnIndex( array[0] ) );
+//                    cursor.close();
+//                    Bitmap bitmap1 = BitmapFactory.decodeFile( path );
+//                    mIcon.setImageBitmap( bitmap1 );
+                    crop( data.getData() );
+                    break;
+                case 3:
+                    Bitmap bitmap = data.getParcelableExtra( "data" );
+                    mIcon.setImageBitmap( bitmap );
+                    break;
+
+            }
         }
     }
 }

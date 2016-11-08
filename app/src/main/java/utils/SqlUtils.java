@@ -12,9 +12,6 @@ import dao.MyDatabaseHelper;
 import entry.DBInfo;
 import entry.Source;
 
-import static entry.DBInfo._ICON;
-import static entry.DBInfo._LINK;
-import static entry.DBInfo._STAMP;
 import static entry.DBInfo._TYPE;
 
 /**
@@ -39,10 +36,10 @@ public class SqlUtils {
         values.put( DBInfo._NID, nid );
         values.put( DBInfo._TITLE, title );
         values.put( DBInfo._SUMMARY, summary );
-        values.put( _STAMP, stamp );
-        values.put( _ICON, icon );
-        values.put( _LINK, link );
-        values.put( _TYPE, type );
+        values.put( DBInfo._STAMP, stamp );
+        values.put( DBInfo._ICON, icon );
+        values.put( DBInfo._LINK, link );
+        values.put( DBInfo._TYPE, type );
         database.insert( DBInfo.TABLE_NAME, null, values );
     }
 

@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import entry.Source;
 import fragment.CenterFragment;
 import utils.SqlUtils;
@@ -153,9 +155,27 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
                 String stamp = list.get( i ).getStamp();
                 String title = list.get( i ).getTitle();
                 int type = list.get( i ).getType();
-                new SqlUtils(mContext).inSert( nid,title,summary,stamp,icon,link,type );
+                new SqlUtils( mContext ).inSert( nid, title, summary, stamp, icon, link, type );
                 Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
 
+            }
+        } );
+        TextView share = (TextView) contentView.findViewById( R.id.txt_popu_share );
+        share.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareSDK.initSDK( mContext );
+                //实例对象
+                OnekeyShare onekeyShare = new OnekeyShare();
+                //关闭sso授权
+                onekeyShare.disableSSOWhenAuthorize();
+//                onekeyShare.
+                onekeyShare.setImageUrl( list.get( i ).getIcon() );
+                onekeyShare.setText( list.get( i ).getSummary() );
+                onekeyShare.setTitle( list.get( i ).getTitle() );
+                onekeyShare.setTitleUrl( list.get( i ).getLink() );
+
+                onekeyShare.show( mContext );
             }
         } );
         PopupWindow popupWindow = new PopupWindow( contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
