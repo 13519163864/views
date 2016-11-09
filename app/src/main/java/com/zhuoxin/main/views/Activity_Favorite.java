@@ -113,7 +113,7 @@ public class Activity_Favorite extends Activity implements View.OnClickListener 
 //                String summary = list.get( i ).getSummary();
 //                String icon = list.get( i ).getIcon();
 //                String link = list.get( i ).getLink();
-                int nid = list.get( i ).getNid();
+                String nid = list.get( i ).getNid();
 //                String stamp = list.get( i ).getStamp();
 //                String title = list.get( i ).getTitle();
 //                int type = list.get( i ).getType();

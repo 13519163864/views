@@ -15,5 +15,7 @@ public class UriInfo {
     public static final String SIGNIN = "path/user_register?";
     public static final String LOGON = "path/user_login?";
     public static final String UserCenter = "path/user_home?";
+    public static final String CMT_NUM = "path/cmt_num?";
+    public static final String CMT_REPERT = "path/cmt_list?";
 
 }

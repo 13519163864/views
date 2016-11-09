@@ -38,36 +38,57 @@ import utils.HttpUtils;
 
 /**
  * Created by Administrator on 2016/11/4.
+ * 系统界面用户中心
  */
 
 public class Activity_UserCenter extends AppCompatActivity implements OnLoadResponseListener, View.OnClickListener {
+    //请求队列
     RequestQueue requestQueue;
+    //数据源
     static ArrayList<LoginLog> mList = new ArrayList<>();
+    //用户头像
     ImageView mIcon;
+    //用户名
     TextView mName;
+    //积分
     TextView mInte;
+    //评论
     TextView mComnum;
+    //组件
     ListView mLst;
+    //登录统计
     int integration;
+    //用户名
     String uid;
+    //用户头像
     String portrait;
+    //评论数
     int comnum;
+    //返回键
     ImageView mBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+//        加载布局
         setContentView( R.layout.user_center );
+        //初始化view
         initView();
+        //通过SharedPreferences拿其中存储的数据
         SharedPreferences signIn = this.getSharedPreferences( "signIn", MODE_PRIVATE );
+        //拿取用户token
         String token = signIn.getString( "token", null );
         Log.e( "=======", "用户中心token" + token );
+//        通过volley获取请求队列
         requestQueue = Volley.newRequestQueue( this );
+        //请求用户中心数据
         new HttpUtils().UserCenter( UriInfo.BaseUrl + UriInfo.UserCenter, this, requestQueue, token );
 
 
     }
 
+
+    //初始化view
     public void initView() {
         mIcon = (ImageView) findViewById( R.id.img_user_icon );
         mName = (TextView) findViewById( R.id.txt_user_center_userName );
@@ -79,6 +100,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         mBack.setOnClickListener( this );
     }
 
+    //保存数据
     SharedPreferences userInfo;
 
     @Override
@@ -86,6 +108,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         Log.e( "===", "UserCenter----" + succuful );
         try {
             userInfo = this.getSharedPreferences( "UserInfo", MODE_PRIVATE );
+            //获取编辑器对象
             SharedPreferences.Editor edit = userInfo.edit();
             JSONObject jsonObject = new JSONObject( succuful );
             String message = jsonObject.getString( "message" );
@@ -94,6 +117,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
             int status = jsonObject.getInt( "status" );
             edit.putInt( "status", status );
             Log.e( "===", "status" + status );
+            //提交数据,用status最后判断用户的登录状态
             edit.commit();
             JSONObject object = jsonObject.optJSONObject( "data" );
 
@@ -134,6 +158,11 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void getCmtList(String data) {
+
     }
 
     File file;
@@ -201,7 +230,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         intent.putExtra( "outputX", 200 );
         intent.putExtra( "outputY", 200 );
         //设置剪切圆形图片
-        intent.putExtra( "circleCrop","true" );
+        intent.putExtra( "circleCrop", "true" );
         //设置返回数据
         intent.putExtra( "return-data", true );
         startActivityForResult( intent, 3 );
@@ -215,14 +244,14 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         intent.setAction( "com.android.camera.action.CROP" );
         //开启剪切
         intent.putExtra( "crop", "true" );
-        //设置裁剪框比例
+        //设置裁剪框比例 1:1
         intent.putExtra( "aspectX", 1 );
         intent.putExtra( "aspectY", 1 );
-        //设置裁剪后输出的照片大小
+        //设置裁剪后输出的照片大小 宽高200像素
         intent.putExtra( "outputX", 200 );
         intent.putExtra( "outputY", 200 );
         //设置剪切圆形图片
-        intent.putExtra( "circleCrop","true" );
+        intent.putExtra( "circleCrop", "true" );
         //设置返回数据
         intent.putExtra( "return-data", true );
         startActivityForResult( intent, 3 );
@@ -234,6 +263,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 1:
+
                     cropFromCamera( file );
 
 
@@ -260,7 +290,9 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
                     crop( data.getData() );
                     break;
                 case 3:
+                    //拿取照片
                     Bitmap bitmap = data.getParcelableExtra( "data" );
+                    //加载图片
                     mIcon.setImageBitmap( bitmap );
                     break;
 

@@ -38,6 +38,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Activity_UserCenter"></activity>
         <activity android:name=".Activity_Favorite"></activity>
+        <activity android:name=".Activity_Commit"></activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

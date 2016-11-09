@@ -17,6 +17,7 @@ import fragment.RightFragment;
 
 /**
  * Created by Administrator on 2016/10/18.
+ * 系统主要页面
  */
 
 public class Activity_Menu extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -26,42 +27,63 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 //    DrawerLayout drawerLayout;
     ImageView mHome;
     ImageView mShare;
-
+    //采用slidingmenu,第三方组件
     //    ListView mLst;
     public static SlidingMenu slidingMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+        //slidingmenu内容页
         setContentView( R.layout.main );
+        //自定义actionbar
         initActinBar( "资讯" );
+        //获取slidingmenu对象,另一种方法为xml加载,作为组件使用
         slidingMenu = new SlidingMenu( this );
+        //使用新闻列表碎片代替content页
+        //获得碎片管理器
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //替代
         transaction.replace( R.id.framlayout_main, new CenterFragment() );
+        //必须提交才能够替换
         transaction.commit();
-
+//设置slidingmenu滑动方式为左右滑动
         slidingMenu.setMode( SlidingMenu.LEFT_RIGHT );
+        //设置菜单页,slidingmenu中三个页面均为空白页,需要时拿碎片替换
+        //菜单页默认为左侧
         slidingMenu.setMenu( R.layout.left );
-
+//替换左侧菜单
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
         transaction1.replace( R.id.framlayout_left, new LeftFragment() );
         transaction1.commit();
+        //设置第二菜单,即右侧菜单
         slidingMenu.setSecondaryMenu( R.layout.right );
+        //替换右侧菜单
         FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
         transaction2.replace( R.id.framlayout_right, new RightFragment() );
         transaction2.commit();
+        //设置滑动模式为全屏滑动
         slidingMenu.setTouchModeAbove( SlidingMenu.TOUCHMODE_FULLSCREEN );
+        //设置偏移量
         slidingMenu.setFadeDegree( 0.8f );
+        //设置菜单与屏幕距离
         slidingMenu.setBehindOffset( 100 );
+        //设置左侧阴影背景
         slidingMenu.setShadowDrawable( R.drawable.a );
+        //设置右侧阴影背景
         slidingMenu.setSecondaryShadowDrawable( R.drawable.a );
+        //设置阴影宽度
         slidingMenu.setShadowWidth( 10 );
+        //将slidingmenu加载到活动中
         slidingMenu.attachToActivity( this, SlidingMenu.SLIDING_CONTENT );
 
 //        slidingMenu.showContent();
 //        slidingMenu.toggle();
 
 //        drawerLayout = (DrawerLayout) findViewById( R.id.draw_layout );
+
+
+        //加载按钮组件
         mHome = (ImageView) findViewById( R.id.img_action_bar_home );
         mShare = (ImageView) findViewById( R.id.img_action_bar_share );
 
@@ -70,7 +92,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 
 //        mLogon = (Button) findViewById( R.id.btn_signIn );
 //        mLogon.setOnClickListener( this );
-
+//按钮设置监听
         mHome.setOnClickListener( this );
         mShare.setOnClickListener( this );
 
@@ -89,7 +111,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_action_bar_home:
-
+//设置如果点击按钮,通过判断进行菜单的关闭或打开
                 if (slidingMenu.isMenuShowing()) {
                     slidingMenu.showContent();
                 } else {
@@ -124,6 +146,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
+            //左侧菜单listview的监听事件
             case 0:
                 slidingMenu.showContent();
                 Toast.makeText( this, "新闻", Toast.LENGTH_SHORT ).show();
@@ -181,6 +204,9 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 //        Adapter_Menu adapter = new Adapter_Menu(list, this);
 //        mLst.setAdapter(adapter);
 //    }
+
+
+    //提供外部接口进行slidingmenu菜单的关闭
     public void showConten() {
         slidingMenu.showContent();
     }

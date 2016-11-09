@@ -3,6 +3,7 @@ package com.zhuoxin.main.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,27 +18,42 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import entry.CmtListInfo;
 import entry.Source;
+import entry.UriInfo;
 import fragment.CenterFragment;
+import interFace.OnLoadResponseListener;
+import utils.HttpUtils;
 import utils.SqlUtils;
 
 /**
  * Created by Administrator on 2016/10/19.
+ * 加载链接 webview
  */
 
-public class Activity_ViewsShow extends Activity implements View.OnClickListener {
+public class Activity_ViewsShow extends Activity implements View.OnClickListener, OnLoadResponseListener {
     WebView mWeb;
     Context mContext;
+    //数据源
     ArrayList<Source> list = new ArrayList<>();
-    //    ArrayList<Source> list1 = new ArrayList<>();
     int i;
     ImageView mBack;
     ImageView mPopu;
-//    public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
+    TextView mCmtNum;
+    List<Integer> mList = new ArrayList<>();
+    RequestQueue requestQueue;
+    static ArrayList<CmtListInfo> CmtList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +64,9 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
         mBack = (ImageView) findViewById( R.id.img_web_back );
         mBack.setOnClickListener( this );
         mPopu = (ImageView) findViewById( R.id.img_web_favorite );
-
+        mCmtNum = (TextView) findViewById( R.id.txt_web_repert );
+        mCmtNum.setOnClickListener( this );
         mContext = this;
-//        final PopupWindow popupWindow = new PopupWindow();
-//
-//        //设置view
-//        popupWindow.setContentView( this.getLayoutInflater().inflate( R.layout.popu, null, false ) );
-//        popupWindow.setWidth( 100 );
-//        popupWindow.setHeight( 300 );
         mPopu.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +78,10 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 
         list = new CenterFragment().getList();
         Log.e( "===", "-------------" + list.size() );
+        requestQueue = Volley.newRequestQueue( this );
+        Log.e( "========", "list的长度" + list.size() );
+
+
         //设置手机客户端的显示样式
         WebSettings settings = mWeb.getSettings();
         settings.setJavaScriptEnabled( true );
@@ -88,6 +103,9 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 
         Intent intent = this.getIntent();
         i = intent.getIntExtra( "i", -1 ) - 1;
+        //获取
+        new HttpUtils().CmtNum( UriInfo.BaseUrl + UriInfo.CMT_NUM, this, requestQueue, list.get( i ).getNid() );
+
         //加载网页
         mWeb.loadUrl( list.get( i ).getLink() );
 
@@ -101,10 +119,6 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 
             }
         } );
-//        Task task = new Task();
-//        task.setListener( this );
-//
-//        task.execute( PATH );
 
 
     }
@@ -116,78 +130,123 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
                 startActivity( new Intent( Activity_ViewsShow.this, Activity_Menu.class ) );
                 finish();
                 break;
+            case R.id.txt_web_repert:
+//                携带数据跳转,将当前页面的下标传递给跳转界面,以便于获取数据源,
+                Intent intent = new Intent( Activity_ViewsShow.this, Activity_Commit.class );
+                //因为本页面使用的是xlistview给下标-1,所以传递时需给下标加+1,否则数据获取不完整
+                intent.putExtra( "position", i + 1 );
+                startActivityForResult( intent, 1 );
+                break;
         }
     }
 
-//
-//    @Override
-//    public void getAllData(Source source) {
-////        list.clear();
-//        list.add( source );
+    public int getI() {
+        return i;
+    }
 
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult( requestCode, resultCode, data );
+    }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode== KeyEvent.KEYCODE_BACK) {
-//            mWeb.goBack();
-//            return  true;
-//        }
-//        return super.onKeyDown( keyCode, event );
-//    }
-
-    //    @Override
-//    public void getResource(Source source) {
-////        list.clear();
-//        list.add( source );
-//    }
     //popupwindow下拉列表
     public void showPopupWindow(View view) {
+        //加载布局
         View contentView = LayoutInflater.from( mContext ).inflate( R.layout.popu, null );
+        //加载组件,为收藏功能
         TextView textView = (TextView) contentView.findViewById( R.id.txt_popu );
+        //加入收藏设置点击事件
         textView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //position被点击时拿到当前新闻的信息
                 String summary = list.get( i ).getSummary();
                 String icon = list.get( i ).getIcon();
                 String link = list.get( i ).getLink();
-                int nid = list.get( i ).getNid();
+                String nid = list.get( i ).getNid();
                 String stamp = list.get( i ).getStamp();
                 String title = list.get( i ).getTitle();
-                int type = list.get( i ).getType();
+                String type = list.get( i ).getType();
+                //将当前收藏新闻的信息调用数据库插入方法插入数据库中
                 new SqlUtils( mContext ).inSert( nid, title, summary, stamp, icon, link, type );
+                //插入之后toast提醒用户
                 Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
 
             }
         } );
+        //设置一键分享
         TextView share = (TextView) contentView.findViewById( R.id.txt_popu_share );
         share.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //初始化ShareSDK
                 ShareSDK.initSDK( mContext );
                 //实例对象
                 OnekeyShare onekeyShare = new OnekeyShare();
                 //关闭sso授权
                 onekeyShare.disableSSOWhenAuthorize();
-//                onekeyShare.
+                //onekeyShare.
+                //设置分享时的图片
                 onekeyShare.setImageUrl( list.get( i ).getIcon() );
+                //设置分享内容
                 onekeyShare.setText( list.get( i ).getSummary() );
+                //设置分享标题
                 onekeyShare.setTitle( list.get( i ).getTitle() );
+                //设置分享链接
                 onekeyShare.setTitleUrl( list.get( i ).getLink() );
-
+                //设置显示
                 onekeyShare.show( mContext );
             }
         } );
+        //popupwindow
         PopupWindow popupWindow = new PopupWindow( contentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true );
+        //popupwindow点击事件
         popupWindow.setTouchable( true );
         popupWindow.setTouchInterceptor( new View.OnTouchListener() {
+            //点击事件监听
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.e( "mengdd", "onTOUCH" );
                 return false;
             }
         } );
+        //设置popupwindow背景图片,若不设置则不可点击
         popupWindow.setBackgroundDrawable( getResources().getDrawable( R.mipmap.tt ) );
+        //设置popupwindow显示类型
         popupWindow.showAsDropDown( view );
     }
+
+    @Override
+    public void getResponse(String succuful) {
+        //获取评论数量
+        Log.e( "===", "评论数量" + succuful );
+        try {
+            //使用SharedPreferences保存评论数量
+            SharedPreferences cmtList = this.getSharedPreferences( "cmtList", MODE_PRIVATE );
+            SharedPreferences.Editor edit = cmtList.edit();
+            JSONObject jsonObject = new JSONObject( succuful );
+            String message = jsonObject.getString( "message" );
+            edit.putString( "message", message );
+            int status = jsonObject.getInt( "status" );
+            edit.putInt( "status", status );
+            String data = jsonObject.getString( "data" );
+            edit.putString( "data", data );
+            edit.commit();
+            Log.e( "====", "数据" + data );
+
+            //将评论数量显示在组件中
+            mCmtNum.setText( "跟帖: " + data + "" );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Override
+    public void getCmtList(String data) {
+
+
+    }
+
 }

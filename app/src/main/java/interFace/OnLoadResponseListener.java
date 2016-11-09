@@ -7,5 +7,7 @@ package interFace;
 public interface OnLoadResponseListener {
     void getResponse(String succuful);
 
+    void getCmtList(String data);
+
 
 }

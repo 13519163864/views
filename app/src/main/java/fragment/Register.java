@@ -113,6 +113,11 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
 
     }
 
+    @Override
+    public void getCmtList(String data) {
+
+    }
+
 
     @Override
     public void onClick(View view) {

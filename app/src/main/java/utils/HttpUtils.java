@@ -151,4 +151,61 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
+
+    public void CmtNum(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid) {
+        StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                onLoadResponseListener.getResponse( response );
+                Log.e( "========", "解析前" + response );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e( "===", "error=======" + error.getMessage() );
+            }
+        } ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put( "ver", "1" );
+                map.put( "nid", nid );
+                return map;
+            }
+        };
+        requestQueue.add( request );
+    }
+
+    public void CmtList(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String cid) {
+        StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                onLoadResponseListener.getCmtList( response );
+                Log.e( "========", "解析前" + response );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e( "===", "error=======" + error.getMessage() );
+            }
+        } ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put( "ver", "1" );
+                map.put( "nid", nid );
+                map.put( "type", "1" );
+                map.put( "stamp", "yyyyMMdd" );
+                map.put( "cid", cid );
+                map.put( "dir", "0" );
+                map.put( "cnt", "20" );
+                return map;
+            }
+        };
+        requestQueue.add( request );
+    }
+
+
 }

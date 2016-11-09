@@ -19,6 +19,7 @@ import java.util.Random;
 
 /**
  * Created by Administrator on 2016/10/18.
+ * 程序logo界面
  */
 
 public class Activity_Logo extends AppCompatActivity {
@@ -31,52 +32,65 @@ public class Activity_Logo extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+        /*
+        * 导入第三方jar包AnimatedRandomLayout
+        * 随机的显示用户自定义的内容,大小颜色位置都是随机的
+        *
+        *
+        * */
+        //耗时操作在子线程中操作
         new Thread( new Runnable() {
             @Override
             public void run() {
-         AnimatedRandomLayout layout = (AnimatedRandomLayout) findViewById(R.id.animation);
-        String[] str = {"你是不是感觉自己萌萌哒","你是不是喜欢我啊","明星八卦","古今奇谈","野史怪谈","家长里短","感觉不会再爱了","蓝瘦香菇","喜洋洋爱上了灰太狼","红太狼和村长私奔了","超人大战奥特曼","你能把我怎样","我就喜欢看你看不惯我又拿我没办法的逼样"};
-        list = new ArrayList<>();
-        list = Arrays.asList(str);
+                //获取AnimatedRandomLayout组件
+                AnimatedRandomLayout layout = (AnimatedRandomLayout) findViewById( R.id.animation );
+                //定义随机显示内容
+                String[] str = {"你是不是感觉自己萌萌哒", "你是不是喜欢我啊", "明星八卦", "古今奇谈", "野史怪谈", "家长里短", "感觉不会再爱了", "蓝瘦香菇", "喜洋洋爱上了灰太狼", "红太狼和村长私奔了", "超人大战奥特曼", "你能把我怎样", "我就喜欢看你看不惯我又拿我没办法的逼样"};
+                list = new ArrayList<>();
+//                将数组放入集合
+                list = Arrays.asList( str );
 
-
-        layout.setLooperDuration(50);
-        layout.setDefaultDruation(5000);
-        layout.setItemShowCount(2);
+//设置循环时间,也就是每次显示的时间间隔
+                layout.setLooperDuration( 50 );
+                //设置动画显示的最大时间
+                layout.setDefaultDruation( 5000 );
+                //设置每次显示的数量
+                layout.setItemShowCount( 2 );
 //        layout.setRegularity(15, 15);
 
 
-        layout.setOnCreateItemViewListener(new AnimatedRandomLayout.OnCreateItemViewListener() {
-            @Override
-            public int getCount() {
-                return list.size();
-            }
-
-            @Override
-            public View createItemView(int position, View convertView) {
-                final TextView textView = new TextView(getApplicationContext());
-                //1.设置文本数据
-                int listPosition = position;
-                textView.setText(list.get(listPosition) + "");
-                //2.设置随机的字体
-                Random random = new Random();
-                textView.setTextSize( TypedValue.COMPLEX_UNIT_SP, random.nextInt(8) + 24);//14-21
-                //3.上色，设置随机字体颜色
-                textView.setTextColor( ColorUtil.randomColor());
-                //4.设置点击事件
-                textView.setOnClickListener(new View.OnClickListener() {
+                layout.setOnCreateItemViewListener( new AnimatedRandomLayout.OnCreateItemViewListener() {
                     @Override
-                    public void onClick(View view) {
-                        ToastUtil.showToast(getApplicationContext(), textView.getText().toString());
+                    public int getCount() {
+                        return list.size();
                     }
-                });
 
-                return textView;
-            }
-        });
+                    @Override
+                    public View createItemView(int position, View convertView) {
+                        final TextView textView = new TextView( getApplicationContext() );
+                        //1.设置文本数据
+                        int listPosition = position;
+                        textView.setText( list.get( listPosition ) + "" );
+                        //2.设置随机的字体
+                        Random random = new Random();
+                        textView.setTextSize( TypedValue.COMPLEX_UNIT_SP, random.nextInt( 8 ) + 24 );//14-21
+                        //3.上色，设置随机字体颜色
+                        textView.setTextColor( ColorUtil.randomColor() );
+                        //4.设置点击事件
+                        textView.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ToastUtil.showToast( getApplicationContext(), textView.getText().toString() );
+                            }
+                        } );
 
-        layout.start();
+                        return textView;
+                    }
+                } );
+//开启动画布局
+                layout.start();
                 try {
+//                    开启后设置系统休眠5秒,也就是动画显示时间
                     Thread.sleep( 5000 );
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -85,46 +99,15 @@ public class Activity_Logo extends AppCompatActivity {
                 runOnUiThread( new Runnable() {
                     @Override
                     public void run() {
-                    startActivity( new Intent( Activity_Logo.this,Activity_Menu.class ) );
-                        overridePendingTransition( R.anim.set,R.anim.exit );
+                        //动画即logo界面显示完毕之后跳转至系统的主界面
+                        startActivity( new Intent( Activity_Logo.this, Activity_Menu.class ) );
+                        //加载动画
+                        overridePendingTransition( R.anim.set, R.anim.exit );
                         finish();
                     }
                 } );
-    }
-} ).start();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+        } ).start();
 
 
 //        mFly = (FrameLayout) findViewById( R.id.activity_main );
