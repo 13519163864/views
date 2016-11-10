@@ -177,7 +177,36 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
-    public void CmtList(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String cid) {
+    public void CmtList(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String dir, final String cid) {
+        StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                onLoadResponseListener.getCmtList( response );
+                Log.e( "========", "解析前" + response );
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e( "===", "error=======" + error.getMessage() );
+            }
+        } ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put( "ver", "0000000" );
+                map.put( "nid", nid );
+                map.put( "type", "1" );
+                map.put( "stamp", "yyyyMMdd" );
+                map.put( "cid", cid );
+                map.put( "dir", dir );
+                return map;
+            }
+        };
+        requestQueue.add( request );
+    }
+
+    public void CmtPublish(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String token, final String ctx) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -196,11 +225,10 @@ public class HttpUtils {
                 Map<String, String> map = new HashMap<>();
                 map.put( "ver", "1" );
                 map.put( "nid", nid );
-                map.put( "type", "1" );
-                map.put( "stamp", "yyyyMMdd" );
-                map.put( "cid", cid );
+                map.put( "token", token );
+                map.put( "imei", "10" );
+                map.put( "ctx", ctx );
                 map.put( "dir", "0" );
-                map.put( "cnt", "20" );
                 return map;
             }
         };
