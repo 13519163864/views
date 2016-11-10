@@ -81,9 +81,7 @@ public class Task extends AsyncTask<String, String, String> {
 
             ArrayList<Source> data1 = data.getData();
             Log.e( "===", "data1==" + data1.get( 0 ).getSummary() );
-            for (int i = 0; i < 15; i++) {
-                onResourceListener.getResource( data1.get( i ) );
-            }
+
             for (int i = 0; i < data1.size(); i++) {
                 onResourceListener.getAllData( data1.get( i ) );
             }

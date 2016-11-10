@@ -15,15 +15,17 @@ import java.util.Map;
 import interFace.OnLoadResponseListener;
 
 /**
+ * 网络操作类
  * Created by Administrator on 2016/11/1.
  */
 
 public class HttpUtils {
-
+    //注册使用Volley访问数据POST请求
     public void SignIn(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String emil, final String name, final String password) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                //自定义接口获取数据
                 onLoadResponseListener.getResponse( response );
             }
         }, new Response.ErrorListener() {
@@ -97,7 +99,7 @@ public class HttpUtils {
 //        } ).start();
 //
 //    }
-
+//登录
     public void LogonIn(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String name, final String password) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
@@ -125,6 +127,7 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
+    //用户中心网络请求
     public void UserCenter(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String token) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
@@ -143,7 +146,7 @@ public class HttpUtils {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put( "ver", "1" );
-                map.put( "imei", "1" );
+                map.put( "imei", "0" );
                 map.put( "token", token );
                 return map;
             }
@@ -151,7 +154,7 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
-
+    //评论数量请求
     public void CmtNum(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
@@ -177,6 +180,7 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
+    //评论内容请求
     public void CmtList(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String dir, final String cid) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override
@@ -206,6 +210,7 @@ public class HttpUtils {
         requestQueue.add( request );
     }
 
+    //发布评论
     public void CmtPublish(String uri, final OnLoadResponseListener onLoadResponseListener, RequestQueue requestQueue, final String nid, final String token, final String ctx) {
         StringRequest request = new StringRequest( Request.Method.POST, uri, new Response.Listener<String>() {
             @Override

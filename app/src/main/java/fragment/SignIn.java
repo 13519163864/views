@@ -101,9 +101,10 @@ public class SignIn extends Fragment implements View.OnClickListener, OnLoadResp
             edit.putInt( "status", status );
             edit.commit();
             String message1 = sharedPreferences.getString( "message", null );
+            int status1 = sharedPreferences.getInt( "status", 0 );
             Log.e( "---", "message1=====" + mesage );
 //            if ("登录成功".equals( expl )) {
-            if ("OK".equals( mesage )) {
+            if (status1==0) {
                 startActivity( new Intent( getActivity(), Activity_UserCenter.class ) );
                 getActivity().overridePendingTransition( R.anim.set, R.anim.exit );
                 getActivity().finish();

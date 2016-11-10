@@ -25,6 +25,7 @@ import utils.SqlUtils;
 
 /**
  * Created by Administrator on 2016/11/7.
+ * 显示收藏界面的新闻详情,使用webview
  */
 
 public class Activity_Favorite extends Activity implements View.OnClickListener {
@@ -41,6 +42,7 @@ public class Activity_Favorite extends Activity implements View.OnClickListener 
         super.onCreate( savedInstanceState );
         setContentView( R.layout.views_show_layout );
         mWeb = (WebView) findViewById( R.id.webView );
+
         mWeb.getSettings().setJavaScriptEnabled( true );
         mBack = (ImageView) findViewById( R.id.img_web_back );
         mBack.setOnClickListener( this );
@@ -105,6 +107,7 @@ public class Activity_Favorite extends Activity implements View.OnClickListener 
     }
 
     public void showPopupWindow(View view) {
+        //此时为收藏界面,显示popupwindow设置删除收藏
         View contentView = LayoutInflater.from( mContext ).inflate( R.layout.popu_delete, null );
         TextView textView = (TextView) contentView.findViewById( R.id.txt_popu_delete );
         textView.setOnClickListener( new View.OnClickListener() {

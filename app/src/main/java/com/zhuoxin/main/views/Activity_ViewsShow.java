@@ -54,6 +54,7 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
     List<Integer> mList = new ArrayList<>();
     RequestQueue requestQueue;
     static ArrayList<CmtListInfo> CmtList = new ArrayList<>();
+    ArrayList<Source> sources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 
             }
         } );
-
+        sources = new SqlUtils( mContext ).checkNews();
 
         list = new CenterFragment().getList();
         Log.e( "===", "-------------" + list.size() );
@@ -168,9 +169,18 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
                 String title = list.get( i ).getTitle();
                 String type = list.get( i ).getType();
                 //将当前收藏新闻的信息调用数据库插入方法插入数据库中
-                new SqlUtils( mContext ).inSert( nid, title, summary, stamp, icon, link, type );
-                //插入之后toast提醒用户
-                Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
+
+                for (int j = 0; j < sources.size(); j++) {
+                    Log.e( "===", "source" + sources );
+                    if (sources.get( j ).getNid().equals( list.get( i ).getNid() )) {
+                        Toast.makeText( mContext, "已存在", Toast.LENGTH_SHORT ).show();
+                    } else {
+
+                        new SqlUtils( mContext ).inSert( nid, title, summary, stamp, icon, link, type );
+                        //插入之后toast提醒用户
+                        Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
+                    }
+                }
 
             }
         } );

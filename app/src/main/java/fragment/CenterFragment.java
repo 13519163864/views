@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +38,11 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
     }
 
     Adapter_Menu adapter;
-    public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321&cnt=20";
+    public static final String PATH = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=1&nid=1&stamp=20140321";
+    public static final String PATH_BEF = "http://118.244.212.82:9092/newsClient/path/news_list?ver=1&subid=1&dir=2&nid=1&stamp=20140321";
     XListView mLst;
+
     static ArrayList<Source> list = new ArrayList<>();
-    ArrayList<Source> listBeg = new ArrayList<>();
-    ArrayList<Source> listEnd = new ArrayList<>();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -50,7 +51,11 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
         handler = new Handler();
         mLst = (XListView) view.findViewById( R.id.lst_menu );
-        initData();
+
+        Task task = new Task();
+        task.setListener( this );
+        task.execute( PATH );
+
 
         //上拉加载
         mLst.setPullLoadEnable( true );
@@ -64,11 +69,6 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     }
 
-    private void initData() {
-        Task task = new Task();
-        task.setListener( this );
-        task.execute( PATH );
-    }
 
 //    @Override
 //    public void getResource(ArrayList<Source> source) {
@@ -98,11 +98,9 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     @Override
     public void onLoadMore() {
-//        list.clear();
-        list = listEnd;
-        adapter = new Adapter_Menu( list, getContext() );
-        mLst.setAdapter( adapter );
-        adapter.notifyDataSetChanged();
+        Task task = new Task();
+        task.setListener( this );
+        task.execute( PATH_BEF );
         handler.postDelayed( new Runnable() {
             @Override
             public void run() {
@@ -124,17 +122,17 @@ public class CenterFragment extends Fragment implements XListView.IXListViewList
 
     @Override
     public void getAllData(Source source) {
-        listEnd.add( source );
+        list.add( source );
+        adapter = new Adapter_Menu( list, getContext() );
+        mLst.setAdapter( adapter );
+        adapter.notifyDataSetChanged();
+        Log.e( "====","++++++++source"+list.size() );
     }
 
     @Override
     public void getResource(Source source) {
 
-        listBeg.add( source );
-        list = listBeg;
-        adapter = new Adapter_Menu( list, getContext() );
-        mLst.setAdapter( adapter );
-        adapter.notifyDataSetChanged();
+
     }
 
 
