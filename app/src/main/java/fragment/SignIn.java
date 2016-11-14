@@ -29,16 +29,15 @@ import utils.HttpUtils;
 
 /**
  * Created by Administrator on 2016/11/2.
+ * 登录碎片
  */
 
 public class SignIn extends Fragment implements View.OnClickListener, OnLoadResponseListener {
-
     Button mRegister;
     Button mForgetPassword;
     Button mLogon;
     EditText name;
     EditText password;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

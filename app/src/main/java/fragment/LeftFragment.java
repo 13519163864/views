@@ -49,7 +49,7 @@ public class LeftFragment extends Fragment implements AdapterView.OnItemClickLis
     public void initData() {
         mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_news, "新闻", "NEWS" ) );
         mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_read, "收藏", "FAVORITY" ) );
-        mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_local_news, "本地", "LOCAL" ) );
+        mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_local_news, "相机", "LOCAL" ) );
         mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_ties, "跟帖", "COMMENT" ) );
         mList.add( new LeftFragmentInfo( R.mipmap.biz_navigation_tab_pics, "图片", "PHOTO" ) );
     }
@@ -62,7 +62,7 @@ public class LeftFragment extends Fragment implements AdapterView.OnItemClickLis
                 new Activity_Menu().showConten();
                 Toast.makeText( getActivity(), "新闻", Toast.LENGTH_SHORT ).show();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace( R.id.framlayout_main, new CenterFragment() );
+                transaction.replace( R.id.framlayout_main, new Refresh() );
                 transaction.commit();
 //                startActivity( new Intent( getActivity(), Activity_Menu.class ) );
                 break;
@@ -72,6 +72,13 @@ public class LeftFragment extends Fragment implements AdapterView.OnItemClickLis
                 FragmentTransaction transaction1 = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction1.replace( R.id.framlayout_main, new Favorite() );
                 transaction1.commit();
+                break;
+            case 2:
+                new Activity_Menu().showConten();
+                Toast.makeText( getActivity(), "收藏", Toast.LENGTH_SHORT ).show();
+                FragmentTransaction transaction2 = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction2.replace( R.id.framlayout_main, new CameraFragment() );
+                transaction2.commit();
                 break;
         }
     }

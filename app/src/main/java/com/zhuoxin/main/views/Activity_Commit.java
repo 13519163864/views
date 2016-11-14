@@ -27,7 +27,7 @@ import adapter.AdapterCommit;
 import entry.CmtListInfo;
 import entry.Source;
 import entry.UriInfo;
-import fragment.CenterFragment;
+import fragment.Refresh;
 import interFace.OnLoadResponseListener;
 import me.maxwin.view.XListView;
 import utils.HttpUtils;
@@ -50,7 +50,6 @@ public class Activity_Commit extends AppCompatActivity implements OnLoadResponse
     String token;
     String ctx;
     String data;
-    String cnt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class Activity_Commit extends AppCompatActivity implements OnLoadResponse
         //下拉刷新
         xLst.setPullRefreshEnable( true );
         //设置监听
-        cnt = String.valueOf( 5 );
         xLst.setXListViewListener( this );
 
         //填写评论的对话框
@@ -78,7 +76,7 @@ public class Activity_Commit extends AppCompatActivity implements OnLoadResponse
         //获取position
         position = intent.getIntExtra( "position", -1 );
         //获取新闻列表数据源
-        mList = new CenterFragment().getList();
+        mList = new Refresh().getList();
 //请求队列
         requestQueue = Volley.newRequestQueue( this );
         //获得SharedPreferences对象
@@ -182,8 +180,5 @@ public class Activity_Commit extends AppCompatActivity implements OnLoadResponse
         }, 2000 );
     }
 
-    public String getCnt() {
-        cnt += 1;
-        return cnt;
-    }
+
 }

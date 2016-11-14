@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
     int comnum;
     //返回键
     ImageView mBack;
+    Button mExit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +98,10 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
         mComnum = (TextView) findViewById( R.id.txt_user_center_tongji );
         mLst = (ListView) findViewById( R.id.lst_user_center_log );
         mBack = (ImageView) findViewById( R.id.img_user_center_back );
+        mExit= (Button) findViewById( R.id.btn_user_center_exit );
         mIcon.setOnClickListener( this );
         mBack.setOnClickListener( this );
+//        mExit.setOnClickListener( this );
     }
 
     //保存数据
@@ -175,6 +179,13 @@ public class Activity_UserCenter extends AppCompatActivity implements OnLoadResp
                 final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace( R.id.framlayout_main, new CenterFragment() );
                 transaction.commit();
+                break;
+            case R.id.btn_user_center_exit:
+                Log.e( "===","ggggggggggggggggggggggggg" );
+                SharedPreferences signIn = this.getSharedPreferences( "signIn", MODE_PRIVATE );
+                SharedPreferences.Editor edit = signIn.edit();
+                edit.putInt( "status", -1 );
+                edit.commit();
                 break;
             case R.id.img_user_icon:
                 AlertDialog.Builder builder = new AlertDialog.Builder( this );

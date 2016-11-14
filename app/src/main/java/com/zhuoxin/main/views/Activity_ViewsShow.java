@@ -32,7 +32,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import entry.CmtListInfo;
 import entry.Source;
 import entry.UriInfo;
-import fragment.CenterFragment;
+import fragment.Refresh;
 import interFace.OnLoadResponseListener;
 import utils.HttpUtils;
 import utils.SqlUtils;
@@ -54,7 +54,6 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
     List<Integer> mList = new ArrayList<>();
     RequestQueue requestQueue;
     static ArrayList<CmtListInfo> CmtList = new ArrayList<>();
-    ArrayList<Source> sources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +74,8 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 
             }
         } );
-        sources = new SqlUtils( mContext ).checkNews();
 
-        list = new CenterFragment().getList();
+        list = new Refresh().getList();
         Log.e( "===", "-------------" + list.size() );
         requestQueue = Volley.newRequestQueue( this );
         Log.e( "========", "list的长度" + list.size() );
@@ -103,7 +101,7 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
         settings.setDisplayZoomControls( true );
 
         Intent intent = this.getIntent();
-        i = intent.getIntExtra( "i", -1 ) - 1;
+        i = intent.getIntExtra( "position", -1 );
         //获取
         new HttpUtils().CmtNum( UriInfo.BaseUrl + UriInfo.CMT_NUM, this, requestQueue, list.get( i ).getNid() );
 
@@ -135,7 +133,7 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
 //                携带数据跳转,将当前页面的下标传递给跳转界面,以便于获取数据源,
                 Intent intent = new Intent( Activity_ViewsShow.this, Activity_Commit.class );
                 //因为本页面使用的是xlistview给下标-1,所以传递时需给下标加+1,否则数据获取不完整
-                intent.putExtra( "position", i + 1 );
+                intent.putExtra( "position", i  );
                 startActivityForResult( intent, 1 );
                 break;
         }
@@ -160,6 +158,7 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
         textView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SqlUtils sqlUtils = new SqlUtils( mContext );
                 //position被点击时拿到当前新闻的信息
                 String summary = list.get( i ).getSummary();
                 String icon = list.get( i ).getIcon();
@@ -168,22 +167,23 @@ public class Activity_ViewsShow extends Activity implements View.OnClickListener
                 String stamp = list.get( i ).getStamp();
                 String title = list.get( i ).getTitle();
                 String type = list.get( i ).getType();
-                //将当前收藏新闻的信息调用数据库插入方法插入数据库中
-
-                for (int j = 0; j < sources.size(); j++) {
-                    Log.e( "===", "source" + sources );
-                    if (sources.get( j ).getNid().equals( list.get( i ).getNid() )) {
+                //在进行收藏操作之前先对数据库里边的数据进行查询
+                ArrayList<Source> sources = sqlUtils.checkNews();
+                for (Source source : sources) {
+                    //判断nid是否存在,若存在则跳出当前循环,并提示用户该条新闻已存在于收藏列表中
+                    if (source.getNid().equals( nid )) {
                         Toast.makeText( mContext, "已存在", Toast.LENGTH_SHORT ).show();
-                    } else {
-
-                        new SqlUtils( mContext ).inSert( nid, title, summary, stamp, icon, link, type );
-                        //插入之后toast提醒用户
-                        Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
+                        return;
                     }
                 }
+                //将当前收藏新闻的信息调用数据库插入方法插入数据库中
+                sqlUtils.inSert( nid, title, summary, stamp, icon, link, type );
+                //插入之后toast提醒用户
+                Toast.makeText( mContext, "已收藏,请到侧拉列表中查看", Toast.LENGTH_SHORT ).show();
 
             }
         } );
+
         //设置一键分享
         TextView share = (TextView) contentView.findViewById( R.id.txt_popu_share );
         share.setOnClickListener( new View.OnClickListener() {

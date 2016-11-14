@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import fragment.CenterFragment;
 import fragment.LeftFragment;
+import fragment.Refresh;
 import fragment.RightFragment;
 //import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -44,7 +47,7 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
         //获得碎片管理器
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         //替代
-        transaction.replace( R.id.framlayout_main, new CenterFragment() );
+        transaction.replace( R.id.framlayout_main, new Refresh() );
         //必须提交才能够替换
         transaction.commit();
 //设置slidingmenu滑动方式为左右滑动
@@ -95,7 +98,9 @@ public class Activity_Menu extends BaseActivity implements View.OnClickListener,
 //按钮设置监听
         mHome.setOnClickListener( this );
         mShare.setOnClickListener( this );
-
+        Animation animation = AnimationUtils.loadAnimation( this, R.anim.trans );
+        animation.setDuration( 1000);
+        mShare.startAnimation( animation );
 //        initView();
 //        initData();
 

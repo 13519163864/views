@@ -119,12 +119,44 @@ public class Register extends Fragment implements OnLoadResponseListener, View.O
     }
 
 
+    /**
+     * 合法E-mail地址：
+     * 1. 必须包含一个并且只有一个符号“@”
+     * 2. 第一个字符不得是“@”或者“.”
+     * 3. 不允许出现“@.”或者.@
+     * 4. 结尾不得是字符“@”或者“.”
+     * 5. 允许“@”前的字符中出现“＋”
+     * 6. 不允许“＋”在最前面，或者“＋@”
+     * <p>
+     * <p>
+     * <p>
+     * 字符描述：
+     * ^ ：匹配输入的开始位置。
+     * \：将下一个字符标记为特殊字符或字面值。
+     * ：匹配前一个字符零次或几次。
+     * + ：匹配前一个字符一次或多次。
+     * (pattern) 与模式匹配并记住匹配。
+     * x|y：匹配 x 或 y。
+     * [a-z] ：表示某个范围内的字符。与指定区间内的任何字符匹配。
+     * \w ：与任何单词字符匹配，包括下划线。
+     * $ ：匹配输入的结尾。
+     */
+
     @Override
     public void onClick(View view) {
         Emil = emil.getText().toString();
         Name = name.getText().toString();
         Password = password.getText().toString();
-        new HttpUtils().SignIn( UriInfo.BaseUrl + UriInfo.SIGNIN, this, requestQueue, Emil, Name, Password );
-        Log.e( "===", "注册按钮被点击了" );
+        if (!Name.matches( "[a-zA-Z]{6,10}" )) {
+            Toast.makeText( getContext(), "用户名格式不正确,请重新输入", Toast.LENGTH_SHORT ).show();
+        } else if (!Emil.matches( "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$" )) {
+            Toast.makeText( getContext(), "邮箱格式不正确,请重新输入", Toast.LENGTH_SHORT ).show();
+        } else {
+
+            new HttpUtils().SignIn( UriInfo.BaseUrl + UriInfo.SIGNIN, this, requestQueue, Emil, Name, Password );
+            Log.e( "===", "注册按钮被点击了" );
+        }
+
+
     }
 }

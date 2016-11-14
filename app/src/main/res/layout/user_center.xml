@@ -33,7 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@mipmap/center_top_bg"
+        android:background="@mipmap/truu"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -69,29 +69,62 @@
                 android:textSize="18sp"/>
         </LinearLayout>
     </LinearLayout>
-
+<LinearLayout
+    android:gravity="center"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:background="@mipmap/sssss">
     <TextView
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
         android:id="@+id/txt_user_center_tongji"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="rty"
         android:textSize="20dp"/>
+</LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:background="@mipmap/sssss">
 
     <TextView
+        android:layout_marginLeft="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_gravity="center"
+
         android:textSize="18sp"
         android:textColor="#1b1a1a"
-        android:text="登录日志"/>
-
+        android:text="登录日志:"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@mipmap/sssss11">
     <ListView
+android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
         android:id="@+id/lst_user_center_log"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"></ListView>
+    </LinearLayout>
 
     <Button
+        android:layout_margin="5dp"
         android:id="@+id/btn_user_center_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
